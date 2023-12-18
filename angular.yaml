@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: angular
+  template:
+    metadata:
+      labels:
+        app: angular
+    spec:
+      containers:
+        - name: angular
+          image: justelyes44/front-angular:latest
+          ports:
+            - containerPort: 4600
+      imagePullSecrets:
+        - name: acr-credentials       
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-service
+spec:
+  selector:
+    app: angular
+  ports:
+    - protocol: TCP
+      port: 4600
+      targetPort: 4600
