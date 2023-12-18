@@ -14,22 +14,25 @@ spec:
     spec:
       containers:
         - name: angular
-          image: justelyes44/front-angular:latest
+          image: justelyes44.azurecr.io/angular:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 4600
       imagePullSecrets:
-        - name: acr-credentials       
-
-
+        - name: acr-credential      
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: angular-service
+  labels:
+    app: angular
+  name: angular-app
 spec:
+  ports:
+    - name: http
+      port: 4600
+      protocol: TCP
+      targetPort: 4600
+  type: LoadBalancer
   selector:
     app: angular
-  ports:
-    - protocol: TCP
-      port: 4600
-      targetPort: 4600
